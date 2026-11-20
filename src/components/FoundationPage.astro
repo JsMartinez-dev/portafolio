@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { messages, type Locale } from '../i18n';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const copy = messages[locale];
+---
+
+<BaseLayout locale={locale} title={copy.title} description={copy.description}>
+  <div class="page-shell mx-auto w-full">
+    <header class="base-header">
+      <span class="wordmark">
+        {locale === 'es' ? 'Portafolio' : 'Portfolio'}
+        <span aria-hidden="true">.</span>
+      </span>
+      <LanguageSwitcher locale={locale} />
+    </header>
+    <main id="main" tabindex="-1" class="base-main">
+      <p class="eyebrow">{copy.status}</p>
+      <h1>{copy.heading}</h1>
+      <p class="intro">{copy.body}</p>
+    </main>
+    <footer class="base-footer">
+      <p>{copy.note}</p>
+    </footer>
+  </div>
+</BaseLayout>

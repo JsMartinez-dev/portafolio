@@ -3,17 +3,28 @@
 **Convención:** `[ ]` pendiente / `[x]` completado; al finalizar una etapa añadir fecha y evidencia. **No marcar tareas sin pruebas**. Una etapa debe estar aprobada antes de iniciar la siguiente. El alcance acordado contiene seis secciones principales más la fase F0 de cimientos.
 
 ## F0 — Cimientos del proyecto (primera ejecución de Codex)
-- [ ] BL-00.1 Inicializar Astro estable con TypeScript estricto en la raíz sin borrar `docs/`.
-- [ ] BL-00.2 Integrar Tailwind CSS 4 por vía oficial actual y CSS propio con tokens iniciales.
-- [ ] BL-00.3 Instalar/configurar MDX, GSAP + ScrollTrigger, Astro Assets (nativo) y adaptador Vercel solo si hace falta; consultar API/versiones oficiales.
-- [ ] BL-00.4 Configurar i18n con rutas `/es/` y `/en/`, español por defecto, rutas y navegación mínima accesible; diseñar estructura extensible a `projects`/`proyectos`.
-- [ ] BL-00.5 Preparar base de layouts, componentes, utilidades de idioma y `src/content.config.ts` con colección de proyectos/esquema validado (sin ejemplos inventados).
-- [ ] BL-00.6 Agregar herramientas de calidad: formateo, lint si procede, `astro check`, build, Playwright/axe en forma inicial.
-- [ ] BL-00.7 Configurar GitHub Actions para validaciones de PR; explicar previsualizaciones Vercel y pendientes de conexión.
-- [ ] BL-00.8 Implementar solo página base bilingüe de prueba/estructura, **sin desarrollar visualmente aún las seis secciones**.
-- [ ] BL-00.9 Ejecutar y registrar pruebas instalables / `build`, y actualizar README y el estado del backlog.
+- [x] BL-00.1 Inicializar Astro estable con TypeScript estricto en la raíz sin borrar `docs/`.
+- [x] BL-00.2 Integrar Tailwind CSS 4 por vía oficial actual y CSS propio con tokens iniciales.
+- [x] BL-00.3 Instalar/configurar MDX, GSAP + ScrollTrigger, Astro Assets (nativo) y adaptador Vercel solo si hace falta; consultar API/versiones oficiales.
+- [x] BL-00.4 Configurar i18n con rutas `/es/` y `/en/`, español por defecto, rutas y navegación mínima accesible; diseñar estructura extensible a `projects`/`proyectos`.
+- [x] BL-00.5 Preparar base de layouts, componentes, utilidades de idioma y `src/content.config.ts` con colección de proyectos/esquema validado (sin ejemplos inventados).
+- [x] BL-00.6 Agregar herramientas de calidad: formateo, lint si procede, `astro check`, build, Playwright/axe en forma inicial.
+- [x] BL-00.7 Configurar GitHub Actions para validaciones de PR; explicar previsualizaciones Vercel y pendientes de conexión.
+- [x] BL-00.8 Implementar solo página base bilingüe de prueba/estructura, **sin desarrollar visualmente aún las seis secciones**.
+- [x] BL-00.9 Ejecutar y registrar pruebas instalables / `build`, y actualizar README y el estado del backlog.
 
 **Aceptación F0:** `npm install` reproducible (lockfile incluido), `npm run dev`, typecheck, build y CI configurados; `/es/` y `/en/` funcionan; documentación intacta; sin React, CMS, servidor propio ni contenido profesional fabricado.
+
+**Evidencia F0 — 2026-11-14:**
+- Dependencias exactas: Astro 7.4.12, MDX 8.1.6, Tailwind CSS/plugin Vite 4.3.5, GSAP 3.15.1. APIs consultadas en documentación oficial; fuentes y arquitectura en README.
+- `npm install` y reinstalación limpia `npm ci`: correctas. `npm audit --audit-level=high`: 0 vulnerabilidades. Sin React/React DOM (`npm ls`).
+- `npm run format:check`: correcto. `npm run check`: 13 archivos, 0 errores, 0 advertencias, 0 hints. `npm run build`: correcto, 3 páginas estáticas. Único aviso esperado: colección de proyectos vacía.
+- `npm run dev -- --host 127.0.0.1 --port 4322`: arrancó; `/es/` y `/en/` respondieron HTTP 200.
+- Playwright con Edge/Chromium instalado (`PLAYWRIGHT_CHANNEL=msedge`): **13 aprobadas, 2 omitidas, 0 fallidas; salida 0 (1,2 minutos)**. Casos ES/EN, axe AA, selector, raíz, teclado y contenido sin JS/movimiento reducido en escritorio/móvil/tablet. Capturas generadas en `test-results/` y revisadas visualmente: contenido legible, sin recortes ni desbordamiento. Teclado físico se comprueba en escritorio; sus dos variantes táctiles se omiten intencionalmente. La ejecución final se hizo fuera del sandbox para permitir el cierre de los procesos de navegador. Se interrumpió la descarga lenta de Chromium Headless Shell; para usar el navegador predeterminado localmente hay que completar `npx playwright install chromium`. CI incluye esa instalación.
+- CI configurado para PR y push, pendiente de ejecución remota al subir los cambios. Vercel/dominio no conectados; previews y condiciones comerciales pendientes según README. Canonical/alternates absolutos se habilitan con `PUBLIC_SITE_URL` real.
+- El scaffold previo `visible-venus/` y los cambios previos se conservan. La eliminación de `docs/PROMPT_01_CODEX.md` ya existía al comenzar; esta ejecución no elimina documentación.
+
+**F0 terminada. F1–F6 permanecen pendientes y requieren autorización.**
 
 ## F1 — Sección 1: Hero + navegación
 - [ ] BL-01.1 Hero desktop dos columnas: nombre/cargo/subtítulo/foto a la derecha.

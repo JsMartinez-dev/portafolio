@@ -1,0 +1,25 @@
+---
+import { homePath, locales, messages, type Locale } from '../i18n';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<nav aria-label={messages[locale].language}>
+  <ul class="language-list">
+    {locales.map((language) => (
+      <li>
+        <a
+          href={homePath(language)}
+          lang={language}
+          hreflang={language}
+          aria-label={language === 'es' ? 'Español' : 'English'}
+          aria-current={language === locale ? 'page' : undefined}
+        >
+          {language.toUpperCase()}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
