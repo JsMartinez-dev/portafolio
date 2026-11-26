@@ -1,7 +1,8 @@
 # Plan Ejecutivo del Portafolio Profesional
 
 **Versión:** 1.0 — 14 de noviembre de 2026  
-**Estado:** planificación aprobada, implementación no iniciada  
+**Estado:** F0 a F3 implementadas. F4, Experiencia, es la siguiente etapa.
+
 **Proyecto:** portafolio personal híbrido, construido con Astro.
 
 ## 1. Visión

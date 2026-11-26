@@ -3,21 +3,21 @@
 **Política:** contenido real cuando exista; `TODO` explícito si está pendiente. Nunca inventar testimonios, cifras, tecnología dominada, experiencia o funcionalidades.
 
 ## Hero (F1)
-- [ ] Foto profesional (original autorizado)
+- [x] Foto de perfil entregada e integrada desde `personal/mi_cara.jpg`.
 - [x] Nombre: Juan Sebastián Martínez (confirmar forma completa para publicación)
 - [x] Cargo: Desarrollador de Software / Software Developer
 - [ ] Subtítulo definitivo ES y EN (proponer y aprobar)
-- [ ] CV en PDF actualizado y autorizado
+- [x] CV en PDF entregado e integrado desde `personal/Cv_Juan_Sebastian_Martinez_Uribe.pdf`.
 - [ ] GitHub y LinkedIn definitivos (GitHub conocido: `https://github.com/JsMartinez-dev`, confirmar)
 
 ## Sobre mí (F2)
-- [ ] Párrafo aprobado y traducción EN
-- [ ] Trayectoria y áreas de interés expresadas con precisión
+- [x] Narrativa en primera persona y traducción EN implementadas.
+- [x] Enfoque backend y monitoría en Programación Orientada a Objetos incorporados.
 
 ## Tecnologías (F3)
-- [ ] Inventario validado con nivel de experiencia y evidencia
-- [ ] Categorías: Backend, Frontend, Bases de Datos, DevOps/Herramientas, Análisis de Datos
-- [ ] Iconografía consistente con licencia
+- [x] Inventario respaldado por el CV, Eventario, FlashBid y este repositorio. La sección no atribuye niveles de experiencia.
+- [x] Categorías: Backend, Frontend, Bases de datos, DevOps y herramientas y Análisis de datos.
+- [x] Iconos de Devicon con licencia incluida y abreviaturas decorativas para Java, DynamoDB, Power BI y SQL.
 
 ## Experiencia (F4)
 - [x] Monitor académico: 2023–2025, Programación Orientada a Objetos, Universidad del Magdalena (fechas proporcionadas por usuario; revisar documento)

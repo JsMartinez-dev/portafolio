@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets';
+import eventario from '../../proyectos/sistemas/Eventario/portada-eventario.png';
+import flashbid from '../../proyectos/sistemas/FlashBid/portada-flashbid.png';
+import { messages, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = messages[locale];
+const projects = [
+  {
+    name: 'FlashBid',
+    description: copy.projects.flashbid,
+    image: flashbid,
+    technologies: ['FastAPI', 'DynamoDB', 'Redis'],
+    repository: 'https://github.com/JsMartinez-dev/FlashBid',
+    demo: 'https://www.youtube.com/watch?v=FhAbjOKOKME',
+  },
+  {
+    name: 'Eventario',
+    description: copy.projects.eventario,
+    image: eventario,
+    technologies: ['Spring Boot', 'PostgreSQL', 'Flyway'],
+    repository: 'https://github.com/SeumaRayo/backend-DevOps/tree/develop',
+    demo: 'https://www.youtube.com/watch?v=eoqXi59Zoag',
+  },
+];
+---
+
+<section
+  class="home-section"
+  id={copy.projectsId}
+  aria-labelledby="projects-title"
+  tabindex="-1"
+>
+  <h2 class="section-title" id="projects-title">
+    {copy.sections.projects}
+  </h2>
+  <div class="project-grid">
+    {projects.map(
+      ({ name, description, image, technologies, repository, demo }) => (
+        <article class="project-card">
+          <Image
+            src={image}
+            alt=""
+            widths={[360, 540, 760, 1100]}
+            sizes="(min-width: 72rem) 520px, (min-width: 48rem) 44vw, 90vw"
+            loading="lazy"
+          />
+          <div class="project-copy">
+            <h3>{name}</h3>
+            <p>{description}</p>
+            <ul role="list">
+              {technologies.map((technology) => (
+                <li>{technology}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="project-links">
+            <a href={repository}>
+              {copy.projects.repository}
+              <span class="sr-only"> · {name}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a href={demo}>
+              {copy.projects.demo}
+              <span class="sr-only"> · {name}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      ),
+    )}
+  </div>
+</section>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    margin-block-start: clamp(1.5rem, 4vw, 2.75rem);
+  }
+
+  .project-card {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-inline-size: 0;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    background: var(--surface-panel);
+  }
+
+  .project-card img {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 16 / 9;
+    border-start-start-radius: inherit;
+    border-start-end-radius: inherit;
+    object-fit: cover;
+  }
+
+  .project-copy {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+  }
+
+  .project-copy h3 {
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+
+  .project-copy p {
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  .project-copy ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-block-start: 0.4rem;
+    list-style: none;
+  }
+
+  .project-copy li {
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    padding: 0.25rem clamp(1rem, 3vw, 1.5rem);
+    border-block-start: 1px solid var(--border-subtle);
+  }
+
+  .project-links a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .project-links a:hover {
+    text-decoration: underline;
+  }
+</style>

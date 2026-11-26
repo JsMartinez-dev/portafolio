@@ -1,0 +1,85 @@
+---
+import { messages, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { about, sections } = messages[locale];
+---
+
+<section
+  class="home-section about"
+  id={about.id}
+  aria-labelledby="about-title"
+  tabindex="-1"
+  data-about
+>
+  <h2 class="section-title" id="about-title">
+    {sections.about}
+  </h2>
+  <div class="about-copy">
+    {about.paragraphs.map((paragraph) => (
+      <p>{paragraph}</p>
+    ))}
+  </div>
+</section>
+
+<script>
+  import { createMotionContext } from '../utils/motion';
+
+  const section = document.querySelector<HTMLElement>('[data-about]');
+  if (section) {
+    const directVisit = window.location.hash === `#${section.id}`;
+
+    if (!directVisit) {
+      createMotionContext(section, (gsap) => {
+        gsap.from('.about-copy', {
+          y: 12,
+          opacity: 0.88,
+          duration: 0.65,
+          ease: 'power2.out',
+          immediateRender: false,
+          clearProps: 'transform,opacity',
+          scrollTrigger: { trigger: section, start: 'top 88%', once: true },
+        });
+      })
+        .then((motion) => {
+          if (motion) {
+            window.addEventListener('pagehide', motion.dispose, { once: true });
+          }
+        })
+        .catch(() => {
+          // The section stays visible when optional motion cannot load.
+        });
+    }
+  }
+</script>
+
+<style>
+  .about {
+    display: grid;
+    justify-items: center;
+    gap: clamp(1.5rem, 4vw, 2.75rem);
+  }
+
+  .about-copy {
+    display: grid;
+    gap: clamp(1rem, 5vw, 3.5rem);
+    max-inline-size: 52rem;
+    color: var(--text-muted);
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
+    line-height: 1.7;
+  }
+
+  .about-copy p {
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 46rem) {
+    .about-copy {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -1,4 +1,4 @@
-# Design System — Dark Silver & Gold (propuesta de base)
+# Design System — Dark Silver & Navy (propuesta de base)
 
 ## Principios
 - Menos elementos, mayor precisión: espacio, tipografía, ritmo y jerarquía.
@@ -12,7 +12,8 @@
 | Fondo base / charcoal | `#17191D` |
 | Superficie secundaria / graphite | `#2C3036` |
 | Texto gris/plata / silver | `#C5C8CE` |
-| Acento / muted gold | `#E0B84B` |
+| Acento / azul marino | `#021D44` |
+| Acento para texto e indicadores sobre fondo oscuro | `#91BAFF` |
 
 Definir tokens para `surface-1`, `surface-2`, `text-primary`, `text-muted`, `border`, `accent`, `focus`, `success`, `error` y `shadow`, y comprobar contrastes antes de publicar. Ningún porcentaje de color debe comprometer AA.
 

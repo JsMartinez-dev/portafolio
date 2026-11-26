@@ -24,28 +24,50 @@
 - CI configurado para PR y push, pendiente de ejecución remota al subir los cambios. Vercel/dominio no conectados; previews y condiciones comerciales pendientes según README. Canonical/alternates absolutos se habilitan con `PUBLIC_SITE_URL` real.
 - El scaffold previo `visible-venus/` y los cambios previos se conservan. La eliminación de `docs/PROMPT_01_CODEX.md` ya existía al comenzar; esta ejecución no elimina documentación.
 
-**F0 terminada. F1–F6 permanecen pendientes y requieren autorización.**
+**F0 terminada.**
 
 ## F1 — Sección 1: Hero + navegación
-- [ ] BL-01.1 Hero desktop dos columnas: nombre/cargo/subtítulo/foto a la derecha.
-- [ ] BL-01.2 CTA a Proyectos y descarga CV solo cuando haya recurso; fallback explícito.
-- [ ] BL-01.3 Navegación de seis secciones + ES/EN y móvil accesible.
-- [ ] BL-01.4 Timeline GSAP de ~1,5 s: navegación → nombre → subtítulo/cargo → foto → botones.
-- [ ] BL-01.5 Responsive, reduced-motion, teclado, pruebas y revisión visual.
+- [x] BL-01.1 Hero desktop dos columnas: nombre/cargo/subtítulo/foto a la derecha.
+- [x] BL-01.2 CTA a Proyectos y descarga CV solo cuando haya recurso; fallback explícito.
+- [x] BL-01.3 Navegación de seis secciones + ES/EN y móvil accesible.
+- [x] BL-01.4 Timeline GSAP de ~1,5 s: navegación → nombre → subtítulo/cargo → foto → botones.
+- [x] BL-01.5 Responsive, reduced-motion, teclado, pruebas y revisión visual.
 **Aceptación:** legible y completo en móvil/desktop, con CTA funcional, texto traducido y animaciones no bloqueantes.
 
+**Evidencia F1 — 2026-11-26:**
+- Portada compartida en `/es/` y `/en/`, con retrato optimizado y el mismo CV descargable en ambas rutas. Los accesos a Inicio y Proyectos llevan a destinos dentro de la página. Proyectos muestra un aviso hasta F5. Las otras entradas del menú se habilitan conforme se implementan sus secciones.
+- `npm run check` y `npm run build` correctos. El build genera tres páginas y tres tamaños de retrato WebP. Prettier pasa en los archivos de esta fase. La comprobación global detecta formato pendiente en `proyectos/sistemas/FlashBid/documentacion.md`.
+- Playwright con Edge/Chromium: 13 pruebas aprobadas y 2 variantes táctiles de teclado omitidas. Verifica ambos idiomas, descarga, navegación, teclado, contenido sin JavaScript y axe en escritorio, móvil y tablet. Capturas revisadas.
+
+**F1 terminada.**
+
 ## F2 — Sección 2: Sobre mí
-- [ ] BL-02.1 Escribir/validar narrativa profesional breve ES/EN sin repetir CV.
-- [ ] BL-02.2 Diseño editorial sobrio, títulos, jerarquía, reveal de scroll.
-- [ ] BL-02.3 Accesibilidad, responsive y tests.
+- [x] BL-02.1 Escribir/validar narrativa profesional breve ES/EN sin repetir CV.
+- [x] BL-02.2 Diseño editorial sobrio, títulos, jerarquía, reveal de scroll.
+- [x] BL-02.3 Accesibilidad, responsive y tests.
 **Aceptación:** contenido auténtico aprobado en ambos idiomas; texto visible sin JS de animación.
 
+**Evidencia F2 — 2026-11-26:**
+- Narrativa en primera persona sobre backend y monitoría, con enlaces del menú a `/es/#sobre-mi` y `/en/#about`. El texto se muestra desde el render inicial. ScrollTrigger suaviza la entrada cuando se permite el movimiento.
+- Se quitaron las flechas de los botones del Hero. `npm run check`, `npm run build` y Prettier en los archivos editados pasaron. Playwright con Edge/Chromium registró 13 pruebas aprobadas y 2 variantes de teclado táctil omitidas. La suite verificó los enlaces, el foco, el texto sin JavaScript y axe en escritorio, móvil y tablet.
+
+**F2 terminada.**
+
 ## F3 — Sección 3: Tecnologías
-- [ ] BL-03.1 Inventario real de stack y categorías: Backend, Frontend, Bases de Datos, DevOps/Herramientas, Análisis de Datos.
-- [ ] BL-03.2 Tarjetas y logotipos coherentes, texto legible, responsive.
-- [ ] BL-03.3 Animación stagger suave sin comprometer rendimiento.
-- [ ] BL-03.4 Verificar licencias, etiquetas accesibles y tests.
+- [x] BL-03.1 Inventario real de stack y categorías: Backend, Frontend, Bases de Datos, DevOps/Herramientas, Análisis de Datos.
+- [x] BL-03.2 Tarjetas y logotipos coherentes, texto legible, responsive.
+- [x] BL-03.3 Animación escalonada con movimiento reducido y contenido visible desde el primer render.
+- [x] BL-03.4 Verificar licencias, etiquetas accesibles y tests.
 **Aceptación:** tecnologías verificadas, categorías distinguibles y sin muro de íconos.
+
+**Evidencia F3 — 2026-11-26:**
+- 16 tecnologías en cinco grupos, respaldadas por el CV, los proyectos o el repositorio. Anclas del menú en `/es/#tecnologias` y `/en/#technologies`. Iconos locales de Devicon y abreviaturas decorativas.
+- `npm run check` y `npm run build` correctos. Revisión en Edge de ambas rutas entre 320 y 1440 px sin desbordamiento y con los 12 iconos cargados. Capturas revisadas en móvil, tablet y escritorio.
+- Playwright con Edge/Chromium registró 13 pruebas aprobadas y 2 variantes táctiles de teclado omitidas. Se comprobó el foco al seguir las anclas, la disponibilidad de la sección sin JavaScript y las reglas automatizadas de axe.
+- Modern Web Guidance `legacy-scan src` registró 0 hallazgos en 38 guías compatibles. La inspección del build detectó unos 46 KiB de JavaScript inicial estimado en gzip con animación habilitada, en su mayoría GSAP y ScrollTrigger. Con movimiento reducido esos dos archivos no se solicitan. Oportunidades para el lanzamiento: diferir el motor de animación hasta acercarse a las secciones, agregar favicon y configurar el dominio para activar canonical y hreflang.
+- `npm run format:check` sigue señalando `proyectos/sistemas/FlashBid/documentacion.md`. GitHub Actions ejecuta esa comprobación antes del build.
+
+**F3 terminada. La siguiente etapa es F4, Experiencia.**
 
 ## F4 — Sección 4: Experiencia
 - [ ] BL-04.1 Timeline con Freelance (2025–actualidad) y Monitor Académico (2023–2025).

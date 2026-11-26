@@ -1,6 +1,6 @@
 # Portafolio profesional — Astro
 
-Base F0 del portafolio bilingüe. La aplicación se ejecuta desde esta raíz. Las seis secciones profesionales siguen pendientes y no hay proyectos ni activos ficticios.
+Portafolio bilingüe en Astro. La aplicación se ejecuta desde esta raíz. Incluye la portada con foto y CV, Sobre mí y un inventario de tecnologías respaldado por el CV y los proyectos.
 
 ## Inicio y validación
 
@@ -32,12 +32,14 @@ Opcionalmente se puede definir `PLAYWRIGHT_CHANNEL=msedge` para probar con Edge 
 
 - `astro.config.mjs`: salida estática, MDX oficial, Tailwind 4 mediante `@tailwindcss/vite`, i18n con prefijo también para español. Sin React ni adaptador SSR.
 - `src/layouts/BaseLayout.astro`: documento HTML, idioma, metadatos y enlace para saltar al contenido. Canonical y alternates absolutos solo con dominio configurado.
-- `src/components/`: página de comprobación compartida y selector ES/EN. Se conservan las carpetas previstas para futuras secciones.
+- `src/components/`: portada, galería de proyectos, Sobre mí, Tecnologías y contacto en español e inglés, con navegación principal y selector ES/EN.
+- `personal/`: foto fuente optimizada por Astro y CV que la portada ofrece como descarga. Si falta el PDF, se muestra un aviso en el idioma de la página.
 - `src/i18n/index.ts`: traducciones tipadas y constructores de rutas. `projectPath` prepara `/es/proyectos/[slug]/` y `/en/projects/[slug]/` sin publicar esas páginas. F5 resolverá `translationKey` y slug traducido en su selector.
-- `src/styles/global.css`: tokens Dark Silver & Gold, espacios, foco y estados. Tipografía de sistema sans y mono sin descargas; selección de marca pendiente de diseño F1.
+- `src/styles/global.css`: tokens Dark Silver & Navy, espacios, foco y estados. La portada usa tipografía del sistema.
 - `src/content.config.ts`: colección `projects` con loader `glob` de MDX, Zod de `astro/zod`, idioma, categoría, slug, clave de traducción, título, resumen, imagen local/alt, tecnologías, enlaces HTTP(S) y borrador por defecto. Sin entradas. F5 añadirá resolución de traducciones, unicidad de rutas y filtrado de borradores antes de publicar.
 - `src/assets/images/`: imágenes reales futuras usando `Image`/`Picture` de `astro:assets`, nativo, sin integración adicional.
-- `src/utils/motion.ts`: carga diferida de GSAP/ScrollTrigger y contexto con `matchMedia`. El consumidor debe llamar a `dispose()` al desmontar/navegar. No se importa en F0.
+- `src/utils/motion.ts`: carga condicional de GSAP y ScrollTrigger para animar Sobre mí y Tecnologías. El texto se muestra desde el primer render y las animaciones respetan la preferencia de movimiento reducido.
+- `src/assets/technologies/`: iconos locales de [Devicon 2.18.0](https://github.com/devicons/devicon/tree/v2.18.0), con la licencia MIT incluida. Algunos nombres usan abreviaturas decorativas.
 - `tests/`, `playwright.config.ts`, `.github/workflows/ci.yml`: pruebas y CI con instalación reproducible, formato, tipos, build, auditoría y E2E en PR y push a main/master.
 
 `visible-venus/` ya existía y se conserva sin cambios; queda fuera del build, typecheck y formato de la aplicación raíz. Se conserva también la eliminación previa de `docs/PROMPT_01_CODEX.md`; F0 no elimina documentación.
@@ -60,9 +62,12 @@ Consultadas el 14 de noviembre de 2026; versiones verificadas con npm antes de i
 
 - [x] Decisiones 1–23 documentadas.
 - [x] Estructura propuesta y backlog.
-- Resultados y evidencia de F0: `docs/BACKLOG.md`.
-- [ ] Implementación de secciones 1–6.
+- Resultados y evidencia por fase en `docs/BACKLOG.md`.
+- [x] Implementación de la portada y navegación (F1).
+- [x] Implementación de Sobre mí (F2).
+- [x] Implementación de Tecnologías (F3).
+- [ ] Implementación de las secciones 4–6.
 
 No subir al repositorio fotos, certificados o claves que no se hayan revisado. No pegar secretos Web3Forms/Gmail en el código.
 
-**F1 requiere autorización expresa.**
+**La siguiente fase es F4, Experiencia.**
