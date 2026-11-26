@@ -11,10 +11,10 @@ El proyecto nació para explorar cómo coordinar actualizaciones en tiempo real 
 
 ## Stack tecnológico
 
-| Área | Tecnologías y uso |
-| --- | --- |
-| Frontend | React, TypeScript y Vite. |
-| Backend | Python y FastAPI para la API de desarrollo, la autenticación y el servicio WebSocket. |
-| Datos | Amazon DynamoDB con diseño de tabla única (*Single Table Design*) para usuarios, subastas, pujas y movimientos. |
+| Área                | Tecnologías y uso                                                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend            | React, TypeScript y Vite.                                                                                                                                     |
+| Backend             | Python y FastAPI para la API de desarrollo, la autenticación y el servicio WebSocket.                                                                         |
+| Datos               | Amazon DynamoDB con diseño de tabla única (_Single Table Design_) para usuarios, subastas, pujas y movimientos.                                               |
 | Tiempo real y caché | Redis para la caché del detalle, la publicación de eventos y el seguimiento de vencimientos. WebSockets para avisar al navegador sobre cambios en la subasta. |
-| Infraestructura | AWS Lambda y API Gateway definidos con AWS CDK. Docker Compose permite ejecutar el entorno con DynamoDB Local o emular los servicios de AWS con LocalStack. |
+| Infraestructura     | AWS Lambda y API Gateway definidos con AWS CDK. Docker Compose permite ejecutar el entorno con DynamoDB Local o emular los servicios de AWS con LocalStack.   |
