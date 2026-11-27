@@ -1,73 +1,22 @@
-# Portafolio profesional — Astro
+# Portafolio de Juan Sebastián Martínez
 
-Portafolio bilingüe en Astro. La aplicación se ejecuta desde esta raíz. Incluye la portada con foto y CV, Sobre mí y un inventario de tecnologías respaldado por el CV y los proyectos.
+Portafolio bilingüe de ingeniería backend. La aplicación Astro está en la raíz. La portada enlaza los proyectos FlashBid, Eventario y Oscila, la trayectoria académica, el CV y los canales de contacto.
 
-## Inicio y validación
+## Ejecutar localmente
 
-Node.js **22.23.4 o superior** (recomendado Node 24 LTS) y npm. Dependencias exactas y resolución transitiva en `package-lock.json`.
+Usa Node 24, la versión principal de CI. Instala las dependencias con `npm ci` e inicia el servidor con `npm run dev`. Abre `http://localhost:4321/es/` o `/en/`.
 
-```sh
-npm ci
-npm run dev
-```
+## Estructura
 
-Visitar `http://localhost:4321/es/` y `/en/`. `/` redirige a español: meta refresh en hosting estático y HTTP 302 mediante `vercel.json` en Vercel. No se detecta el idioma del navegador ni se guarda una preferencia.
+- `src/content/projects/` contiene una ficha bilingüe por proyecto. El esquema de Astro valida la portada, las traducciones y la URL de YouTube durante la compilación.
+- `src/components/` reúne la portada, galería, diálogo de detalles, trayectoria y tecnologías. Cada ficha también se puede abrir directamente mediante su URL estática.
+- `src/i18n/` contiene los textos de la interfaz. `src/data/technologies.ts` vincula tecnologías y logos locales.
+- `src/utils/motion.ts` carga GSAP y ScrollTrigger cuando la preferencia de movimiento lo permite.
+- `personal/` contiene la fotografía y el CV. `proyectos/sistemas/` conserva el material original de cada proyecto.
+- `visible-venus/` es un proyecto auxiliar independiente.
 
-```sh
-npm run format:check
-npm run check
-npm run build
-npx playwright install chromium
-npm test
-npm audit --audit-level=high
-```
+## Validar y publicar
 
-`npm run preview` sirve `dist/`. Playwright inicia su propio preview en `127.0.0.1:4321`; dejar libre ese puerto. Prueba traducciones, selector, redirección, teclado, ausencia de desbordamiento, contenido sin JavaScript y axe WCAG AA en tamaños móvil, tablet y escritorio con Chromium. Axe no sustituye una revisión manual ni certifica WCAG. Informes en `playwright-report/` y `test-results/`.
+Ejecuta `npm run format:check`, `npm run check` y `npm run build`. Instala Chromium con `npx playwright install chromium` y ejecuta `npm test`. Playwright usa el puerto 4321 para servir el resultado de producción. La suite cubre navegación, teclado, descarga del CV, diálogos, carga y retirada de reproductores, movimiento reducido y accesibilidad con Axe.
 
-`npm run format` aplica Prettier con soporte Astro. No se añade ESLint en F0: TypeScript estricto, `astro check`, formateo y E2E cubren la base sin otra configuración de lint. El formateador excluye los documentos aprobados y el scaffold previo `visible-venus/`.
-
-## Arquitectura y decisiones F0
-
-Opcionalmente se puede definir `PLAYWRIGHT_CHANNEL=msedge` para probar con Edge instalado localmente. Sin esa variable se usa Chromium descargado por Playwright, también en CI.
-
-- `astro.config.mjs`: salida estática, MDX oficial, Tailwind 4 mediante `@tailwindcss/vite`, i18n con prefijo también para español. Sin React ni adaptador SSR.
-- `src/layouts/BaseLayout.astro`: documento HTML, idioma, metadatos y enlace para saltar al contenido. Canonical y alternates absolutos solo con dominio configurado.
-- `src/components/`: portada, galería de proyectos, Sobre mí, Tecnologías y contacto en español e inglés, con navegación principal y selector ES/EN.
-- `personal/`: foto fuente optimizada por Astro y CV que la portada ofrece como descarga. Si falta el PDF, se muestra un aviso en el idioma de la página.
-- `src/i18n/index.ts`: traducciones tipadas y constructores de rutas. `projectPath` prepara `/es/proyectos/[slug]/` y `/en/projects/[slug]/` sin publicar esas páginas. F5 resolverá `translationKey` y slug traducido en su selector.
-- `src/styles/global.css`: tokens Dark Silver & Navy, espacios, foco y estados. La portada usa tipografía del sistema.
-- `src/content.config.ts`: colección `projects` con loader `glob` de MDX, Zod de `astro/zod`, idioma, categoría, slug, clave de traducción, título, resumen, imagen local/alt, tecnologías, enlaces HTTP(S) y borrador por defecto. Sin entradas. F5 añadirá resolución de traducciones, unicidad de rutas y filtrado de borradores antes de publicar.
-- `src/assets/images/`: imágenes reales futuras usando `Image`/`Picture` de `astro:assets`, nativo, sin integración adicional.
-- `src/utils/motion.ts`: carga condicional de GSAP y ScrollTrigger para animar Sobre mí y Tecnologías. El texto se muestra desde el primer render y las animaciones respetan la preferencia de movimiento reducido.
-- `src/assets/technologies/`: iconos locales de [Devicon 2.18.0](https://github.com/devicons/devicon/tree/v2.18.0), con la licencia MIT incluida. Algunos nombres usan abreviaturas decorativas.
-- `tests/`, `playwright.config.ts`, `.github/workflows/ci.yml`: pruebas y CI con instalación reproducible, formato, tipos, build, auditoría y E2E en PR y push a main/master.
-
-`visible-venus/` ya existía y se conserva sin cambios; queda fuera del build, typecheck y formato de la aplicación raíz. Se conserva también la eliminación previa de `docs/PROMPT_01_CODEX.md`; F0 no elimina documentación.
-
-## Dominio y despliegue pendiente
-
-No hace falta `.env` para F0. Cuando exista dominio aprobado, configurar `PUBLIC_SITE_URL=https://dominio-real` en el entorno del build (o `.env` local). Sin ese valor se omiten canonical/hreflang absolutos para no publicar URLs inventadas. `lang`, enlaces localizados y `hreflang` del selector funcionan siempre.
-
-Vercel puede publicar `dist/` como Astro estático sin adaptador. Pendiente conectar el repositorio, elegir la raíz, build `npm run build`, salida `dist`, rama de producción y variables. Su integración Git generará previews de PR y CD una vez conectada. F0 no conecta ni despliega servicios externos. Antes de publicar para captar clientes se revisará la compatibilidad del plan con el uso comercial. Web3Forms y Gmail corresponden a F6.
-
-## Fuentes oficiales consultadas
-
-Consultadas el 14 de noviembre de 2026; versiones verificadas con npm antes de instalar:
-
-- [Astro 7](https://docs.astro.build/en/guides/upgrade-to/v7/), [Tailwind 4](https://docs.astro.build/en/guides/styling/), [MDX](https://docs.astro.build/en/guides/integrations-guide/mdx/).
-- [i18n](https://docs.astro.build/en/guides/internationalization/), [Content Collections](https://docs.astro.build/en/guides/content-collections/), [Astro Assets](https://docs.astro.build/en/guides/images/), [Vercel](https://docs.astro.build/en/guides/deploy/vercel/).
-- [ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/), [Playwright](https://playwright.dev/docs/test-configuration), [axe con Playwright](https://playwright.dev/docs/accessibility-testing).
-
-## Estado
-
-- [x] Decisiones 1–23 documentadas.
-- [x] Estructura propuesta y backlog.
-- Resultados y evidencia por fase en `docs/BACKLOG.md`.
-- [x] Implementación de la portada y navegación (F1).
-- [x] Implementación de Sobre mí (F2).
-- [x] Implementación de Tecnologías (F3).
-- [ ] Implementación de las secciones 4–6.
-
-No subir al repositorio fotos, certificados o claves que no se hayan revisado. No pegar secretos Web3Forms/Gmail en el código.
-
-**La siguiente fase es F4, Experiencia.**
+La guía describe los campos de las fichas, los recursos visuales, el flujo de revisión por PR y la configuración de Vercel. [Guía de mantenimiento](docs/MANTENIMIENTO.md)

@@ -1,242 +1,94 @@
 ---
-import { Image } from 'astro:assets';
-import portrait from '../../personal/cara.png';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AboutSection from './AboutSection.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import HeroSection from './HeroSection.astro';
 import ProjectsSection from './ProjectsSection.astro';
+import AboutSection from './AboutSection.astro';
 import TechnologiesSection from './TechnologiesSection.astro';
-import { messages, type Locale } from '../i18n';
-
+import ExperienceSection from './ExperienceSection.astro';
+import cv from '../../personal/Cv_Juan_Sebastian_Martinez_Uribe.pdf?url';
+import { messages, profile, type Locale } from '../i18n';
 interface Props {
   locale: Locale;
 }
-
-const { locale } = Astro.props;
-const copy = messages[locale];
-const name = 'Juan Sebastián Martínez';
-const githubUrl = 'https://github.com/JsMartinez-dev';
-const resumes = import.meta.glob<string>(
-  '../../personal/Cv_Juan_Sebastian_Martinez_Uribe.pdf',
-  { eager: true, query: '?url', import: 'default' },
-);
-const resumeUrl = Object.values(resumes)[0];
+const { locale } = Astro.props,
+  t = messages[locale];
+const links = [
+  [t.projectsId, t.sections.projects],
+  [t.about.id, t.sections.about],
+  [t.technologies.id, t.sections.stack],
+  [t.experienceId, t.sections.experience],
+  [t.contactId, t.sections.contact],
+];
 ---
 
 <BaseLayout
-  locale={locale}
-  title={`${name} | ${copy.role}`}
-  description={copy.description}
+  {locale}
+  title={profile.name + ' | ' + t.role}
+  description={t.description}
 >
   <div class="page-shell">
     <header class="site-header">
       <span class="wordmark" aria-hidden="true">
         JSM<span>.</span>
       </span>
-      <LanguageSwitcher locale={locale} />
-      <nav class="section-nav" aria-label={copy.navigation}>
+      <LanguageSwitcher {locale} />
+      <nav class="section-nav" aria-label={t.navigation}>
         <ul role="list">
-          <li>
-            <a href={`#${copy.projectsId}`}>{copy.sections.projects}</a>
-          </li>
-          <li>
-            <a href={`#${copy.about.id}`}>{copy.sections.about}</a>
-          </li>
-          <li>
-            <a href={`#${copy.technologies.id}`}>{copy.sections.stack}</a>
-          </li>
-          <li>
-            <a href={`#${copy.contactId}`}>{copy.sections.contact}</a>
-          </li>
+          {links.map(([id, label]) => (
+            <li>
+              <a href={'#' + id}>{label}</a>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>
-
     <main id="main" tabindex="-1">
-      <section
-        class="hero"
-        id="inicio"
-        aria-labelledby="hero-name"
-        tabindex="-1"
-      >
-        <Image
-          class="portrait"
-          src={portrait}
-          alt={name}
-          widths={[160, 240, 320, 400]}
-          sizes="(min-width: 48rem) 160px, 128px"
-          loading="eager"
-          fetchpriority="high"
-        />
-        <div class="hero-copy">
-          <h1 id="hero-name">{name}</h1>
-          <p class="role">{copy.role}</p>
-          <p class="description">{copy.description}</p>
-        </div>
-        <div class="actions">
-          <a class="button button-primary" href={`#${copy.projectsId}`}>
-            {copy.viewProjects}
-          </a>
-          {resumeUrl ? (
-            <a
-              class="button button-secondary"
-              href={resumeUrl}
-              download="Cv_Juan_Sebastian_Martinez_Uribe.pdf"
-            >
-              {copy.downloadCv}
-            </a>
-          ) : (
-            <p class="cv-note">{copy.cvPending}</p>
-          )}
-        </div>
-      </section>
-
-      <ProjectsSection locale={locale} />
-      <AboutSection locale={locale} />
-      <TechnologiesSection locale={locale} />
+      <HeroSection {locale} />
+      <ProjectsSection {locale} />
+      <AboutSection {locale} />
+      <TechnologiesSection {locale} />
+      <ExperienceSection {locale} />
     </main>
   </div>
-
-  <footer
-    class="site-footer"
-    id={copy.contactId}
-    aria-labelledby="contact-title"
-    tabindex="-1"
-  >
-    <div class="page-container footer-content">
-      <div>
-        <h2 id="contact-title">{copy.sections.contact}</h2>
-        <p>{name}</p>
-      </div>
-      <a class="button button-secondary" href={githubUrl}>
-        GitHub <span aria-hidden="true">↗</span>
+  <footer class="contact" id={t.contactId} tabindex="-1">
+    <div class="page-container">
+      <h2 class="eyebrow">{t.sections.contact}</h2>
+      <p>{t.contactLine}</p>
+      <a class="email" href={'mailto:' + profile.email}>
+        {profile.email}
       </a>
+      <div class="actions">
+        <a href={profile.github}>GitHub ↗</a>
+        <a href={profile.linkedin}>LinkedIn ↗</a>
+        <a href={cv} download="Cv_Juan_Sebastian_Martinez_Uribe.pdf">
+          CV (PDF)
+        </a>
+      </div>
     </div>
   </footer>
 </BaseLayout>
-
+<script>
+  import { installMotion } from '../utils/motion';
+  installMotion();
+</script>
 <style>
-  .hero {
-    display: grid;
-    justify-items: center;
-    align-content: center;
-    row-gap: clamp(1.35rem, 3vw, 2rem);
-    min-block-size: min(36rem, 75svh);
-    padding-block: clamp(3.5rem, 8vw, 7rem);
-    background: radial-gradient(
-      ellipse 48% 54% at 50% 32%,
-      color-mix(in srgb, var(--accent) 64%, transparent),
-      transparent
-    );
-    text-align: center;
-  }
-
-  .portrait {
-    display: block;
-    inline-size: 8rem;
-    block-size: auto;
-    aspect-ratio: 1;
-    padding: 0.25rem;
-    border: 1px solid var(--border-subtle);
-    border-radius: 50%;
-    background: var(--surface-2);
-    box-shadow: 0 0 0 0.45rem color-mix(in srgb, var(--accent) 65%, transparent);
-    object-fit: cover;
-    object-position: center 40%;
-  }
-
-  @media (min-width: 48rem) {
-    .portrait {
-      inline-size: 10rem;
-    }
-  }
-
-  .hero-copy {
-    display: grid;
-    justify-items: center;
-    row-gap: 0.6rem;
-  }
-
-  h1 {
-    max-inline-size: 20ch;
-    font-size: clamp(2.5rem, 1.4rem + 4.1vw, 5rem);
-    font-weight: 750;
-    letter-spacing: -0.065em;
-    line-height: 1.04;
-    text-wrap: balance;
-  }
-
-  .role {
-    color: var(--accent-foreground);
-    font-size: clamp(1.15rem, 0.95rem + 0.8vw, 1.5rem);
-    font-weight: 600;
-  }
-
-  .description {
-    max-inline-size: 52ch;
-    color: var(--text-muted);
-    font-size: clamp(1rem, 0.9rem + 0.4vw, 1.125rem);
-    text-wrap: pretty;
-  }
-
-  .actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-    min-block-size: 3rem;
-    padding: 0.5rem 1.25rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    color: var(--text-primary);
-    font-size: 0.875rem;
-    font-weight: 650;
-    text-decoration: none;
-  }
-
-  .button-primary {
+  .contact {
     background: var(--accent);
+    padding-block: clamp(2.75rem, 6vw, 5rem);
   }
-
-  .button-primary:hover {
-    border-color: var(--accent-foreground);
-    text-decoration: underline;
+  .contact p {
+    max-width: 27ch;
+    font-size: clamp(1.8rem, 3.5vw, 3.1rem);
+    font-weight: 630;
+    line-height: 1.13;
+    letter-spacing: -0.045em;
+    margin: 0.8rem 0 1.2rem;
   }
-
-  .button-secondary:hover {
-    background: var(--surface-2);
+  .email {
+    font-size: clamp(1.1rem, 2vw, 1.55rem);
   }
-
-  .cv-note,
-  .site-footer p {
-    color: var(--text-muted);
-  }
-
-  .site-footer {
-    border-block-start: 1px solid var(--border-subtle);
-    background: var(--accent);
-  }
-
-  .footer-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    padding-block: clamp(2rem, 5vw, 4rem);
-  }
-
-  .site-footer h2 {
-    font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
-    font-weight: 700;
-    letter-spacing: -0.035em;
+  .contact .actions {
+    margin-top: 1.25rem;
   }
 </style>

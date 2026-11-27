@@ -1,15 +1,29 @@
 ---
 import '../styles/global.css';
-import { homePath, locales, messages, type Locale } from '../i18n';
+import { getImage } from 'astro:assets';
+import photo from '../../personal/cara.png';
+import {
+  homePath,
+  projectPath,
+  locales,
+  messages,
+  profile,
+  type Locale,
+} from '../i18n';
 interface Props {
   locale: Locale;
   title: string;
   description: string;
+  projectId?: string;
 }
-const { locale, title, description } = Astro.props;
-const canonical = Astro.site
-  ? new URL(Astro.url.pathname, Astro.site)
-  : undefined;
+const { locale, title, description, projectId } = Astro.props;
+const url = (lang: Locale) =>
+  new URL(
+    projectId ? projectPath(lang, projectId) : homePath(lang),
+    Astro.site,
+  );
+const canonical = url(locale);
+const social = await getImage({ src: photo, width: 600, format: 'jpeg' });
 ---
 
 <!doctype html>
@@ -19,23 +33,22 @@ const canonical = Astro.site
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#17191d" />
     <title>{title}</title>
-    {canonical && <link rel="canonical" href={canonical} />}
-    {Astro.site &&
-      locales.map((language) => (
-        <link
-          rel="alternate"
-          hreflang={language}
-          href={new URL(homePath(language), Astro.site)}
-        />
-      ))}
-    {Astro.site && (
-      <link
-        rel="alternate"
-        hreflang="x-default"
-        href={new URL(homePath('es'), Astro.site)}
-      />
-    )}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    {locales.map((lang) => (
+      <link rel="alternate" hreflang={lang} href={url(lang)} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={url('es')} />
+    <meta property="og:type" content={projectId ? 'article' : 'website'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={new URL(social.src, Astro.site).href} />
+    <meta property="og:image:alt" content={profile.name} />
+    <meta property="og:locale" content={locale === 'es' ? 'es_CO' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
   </head>
   <body>
     <a class="skip-link" href="#main">

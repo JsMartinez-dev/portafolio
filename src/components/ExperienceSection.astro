@@ -1,0 +1,44 @@
+---
+import { messages, type Locale } from '../i18n';
+interface Props {
+  locale: Locale;
+}
+const t = messages[Astro.props.locale];
+---
+
+<section
+  class="home-section editorial"
+  id={t.experienceId}
+  aria-labelledby="experience-title"
+  tabindex="-1"
+>
+  <h2 class="section-title" id="experience-title">
+    {t.sections.experience}
+  </h2>
+  <ol role="list">
+    {t.experience.map(([period, title, text]) => (
+      <li>
+        <p class="eyebrow">{period}</p>
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+<style>
+  li {
+    padding: 0 0 1.7rem 1.25rem;
+    border-left: 2px solid var(--border-subtle);
+  }
+  li:last-child {
+    padding-bottom: 0;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 650;
+    margin: 0.25rem 0;
+  }
+  li > p:last-child {
+    color: var(--text-muted);
+  }
+</style>

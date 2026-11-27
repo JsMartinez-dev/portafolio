@@ -1,0 +1,52 @@
+---
+import { icons } from '../data/technologies';
+interface Props {
+  names: readonly string[];
+  label?: string;
+}
+const { names, label } = Astro.props;
+---
+
+<ul class="tech-list" role="list" aria-label={label}>
+  {names.map((name) => (
+    <li>
+      {icons[name] ? (
+        <img src={icons[name]} width="20" height="20" alt="" loading="lazy" />
+      ) : (
+        <span aria-hidden="true" class="tech-symbol">
+          {name.replace(/[^A-Z0-9]/g, '').slice(0, 3) || name.slice(0, 2)}
+        </span>
+      )}
+      <span>{name}</span>
+    </li>
+  ))}
+</ul>
+<style>
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+    list-style: none;
+  }
+  .tech-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+  .tech-list img,
+  .tech-symbol {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    object-fit: contain;
+  }
+  .tech-symbol {
+    display: grid;
+    place-content: center;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--accent-foreground);
+    font: 600 0.63rem var(--font-mono);
+  }
+</style>

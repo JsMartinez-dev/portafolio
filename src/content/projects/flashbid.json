@@ -1,0 +1,41 @@
+{
+  "order": 1,
+  "title": "FlashBid",
+  "cover": "../../../proyectos/sistemas/FlashBid/portada-flashbid.png",
+  "repository": "https://github.com/JsMartinez-dev/FlashBid",
+  "video": "https://www.youtube.com/watch?v=FhAbjOKOKME",
+  "featured": ["FastAPI", "DynamoDB", "Redis"],
+  "stack": [
+    "React",
+    "TypeScript",
+    "Vite",
+    "Python",
+    "FastAPI",
+    "WebSockets",
+    "DynamoDB",
+    "Redis",
+    "AWS Lambda",
+    "API Gateway",
+    "AWS CDK",
+    "LocalStack",
+    "Docker Compose"
+  ],
+  "es": {
+    "category": "Sistemas en tiempo real",
+    "summary": "Una puja cambia dos saldos. FlashBid coordina la reserva de créditos, el precio y la cuenta regresiva mientras varios participantes compiten por el mismo artículo.",
+    "overview": "Cada participante tiene una billetera virtual. Al superar una oferta, la plataforma libera los créditos del anterior postor y reserva los del nuevo líder. Un proceso de cierre liquida la subasta al vencer el plazo.",
+    "architecture": [
+      "Una tabla de DynamoDB reúne usuarios, subastas y movimientos. Las transacciones protegen las reservas ante pujas concurrentes. Redis gestiona la caché, publica eventos y mantiene los vencimientos. WebSockets lleva cada cambio al navegador.",
+      "AWS CDK define Lambda y API Gateway. Docker Compose ofrece dos entornos reproducibles, uno con DynamoDB Local y otro con servicios de AWS emulados en LocalStack."
+    ]
+  },
+  "en": {
+    "category": "Real-time systems",
+    "summary": "One bid changes two balances. FlashBid coordinates credit reservations, pricing and a live countdown as bidders compete for an item.",
+    "overview": "Every bidder has a virtual wallet. A higher bid releases the previous bidder’s credits and reserves the new leader’s funds. A worker settles the auction when time expires.",
+    "architecture": [
+      "One DynamoDB table holds users, auctions and ledger entries. Transactions protect reservations during concurrent bids. Redis caches auction details, publishes events and tracks deadlines. WebSockets deliver changes to the browser.",
+      "AWS CDK defines Lambda and API Gateway. Docker Compose supports two reproducible environments using either DynamoDB Local or AWS services emulated by LocalStack."
+    ]
+  }
+}
