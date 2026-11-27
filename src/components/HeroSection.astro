@@ -1,0 +1,129 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../../personal/cara.png';
+import cv from '../../personal/Cv_Juan_Sebastian_Martinez_Uribe.pdf?url';
+import { messages, profile, type Locale } from '../i18n';
+interface Props {
+  locale: Locale;
+}
+const t = messages[Astro.props.locale];
+---
+
+<section class="hero" id="inicio" aria-labelledby="name">
+  <div class="intro">
+    <p class="eyebrow">{t.role}</p>
+    <h1 id="name">{profile.name}</h1>
+    <p class="pitch">{t.description}</p>
+    <div class="actions">
+      <a href={'#' + t.projectsId} class="button primary">
+        {t.viewProjects}
+      </a>
+      <a
+        class="button secondary"
+        href={cv}
+        download="Cv_Juan_Sebastian_Martinez_Uribe.pdf"
+      >
+        {t.downloadCv}
+      </a>
+    </div>
+    <div class="profiles">
+      <a href={profile.github}>GitHub ↗</a>
+      <a href={profile.linkedin}>LinkedIn ↗</a>
+    </div>
+  </div>
+  <figure>
+    <Image
+      src={photo}
+      alt={profile.name}
+      widths={[320, 480, 640, 760]}
+      quality={76}
+      sizes="(min-width:52rem) 35vw, 74vw"
+      fetchpriority="high"
+      loading="eager"
+    />
+  </figure>
+</section>
+<style>
+  .hero {
+    display: grid;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding-block: clamp(3rem, 7vw, 7rem);
+  }
+  .hero h1 {
+    font-size: clamp(3.05rem, 1.5rem + 5.5vw, 6.4rem);
+    line-height: 0.99;
+    font-weight: 730;
+    letter-spacing: -0.069em;
+    margin: 1rem 0 1.4rem;
+    max-width: 12ch;
+    text-wrap: balance;
+  }
+  .pitch {
+    font-size: clamp(1.04rem, 1rem + 0.3vw, 1.23rem);
+    color: var(--text-muted);
+    max-width: 49ch;
+  }
+  .actions {
+    margin-top: 1.8rem;
+  }
+  .profiles {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 1.1rem;
+    font-size: 0.86rem;
+  }
+  .profiles a {
+    padding-block: 0.45rem;
+    color: var(--text-muted);
+  }
+  figure {
+    position: relative;
+    padding: 0 0.8rem 0.8rem 0;
+    max-inline-size: 25rem;
+    width: 89%;
+    justify-self: center;
+  }
+  figure:before {
+    content: '';
+    position: absolute;
+    inset: 1rem 0 0 1rem;
+    background: var(--accent);
+    border: 1px solid var(--border-subtle);
+  }
+  figure img {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: saturate(0.36);
+  }
+  .hero figure {
+    animation: none;
+  }
+  @keyframes float {
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    figure[data-floating] {
+      animation: float 5s ease-in-out infinite;
+    }
+  }
+  @media (min-width: 52rem) {
+    .hero {
+      grid-template-columns: 1.4fr 1fr;
+    }
+    figure {
+      width: 100%;
+    }
+  }
+  @media (max-width: 51.99rem) {
+    figure {
+      width: min(77%, 19rem);
+      justify-self: start;
+    }
+  }
+</style>

@@ -3,8 +3,9 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 
-// No invented production domain: absolute SEO URLs are enabled when configured.
-const site = process.env.PUBLIC_SITE_URL || undefined;
+// Override the production origin for custom domains.
+const site =
+  process.env.PUBLIC_SITE_URL || 'https://portafolio-ag57.vercel.app';
 
 export default defineConfig({
   site,

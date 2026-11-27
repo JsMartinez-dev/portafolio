@@ -15,7 +15,9 @@ for (const locale of ['es', 'en'] as const) {
     );
     await expect(
       page.getByText(
-        locale === 'es' ? 'Desarrollador de Software' : 'Software Developer',
+        locale === 'es'
+          ? 'Desarrollador backend · Java y Spring Boot'
+          : 'Backend developer · Java and Spring Boot',
         {
           exact: true,
         },
@@ -35,19 +37,35 @@ for (const locale of ['es', 'en'] as const) {
     await expect(page).toHaveURL(new RegExp(`${stackFragment}$`));
     const stack = page.getByRole('region', { name: stackTitle });
     await expect(stack).toBeFocused();
-    const database = locale === 'es' ? 'Bases de datos' : 'Database';
-    const otherTools = locale === 'es' ? 'Otras herramientas' : 'Other tools';
-    await expect(stack.getByRole('heading', { level: 3 })).toHaveText([
-      'Backend',
-      database,
-      'DevOps',
-      otherTools,
-    ]);
+    const groups =
+      locale === 'es'
+        ? [
+            'Backend y frameworks',
+            'Lenguajes',
+            'Bases de datos',
+            'DevOps e infraestructura',
+            'Testing y calidad',
+            'Herramientas de desarrollo',
+          ]
+        : [
+            'Backend and frameworks',
+            'Languages',
+            'Databases',
+            'DevOps and infrastructure',
+            'Testing and quality',
+            'Development tools',
+          ];
+    await expect(stack.getByRole('heading', { level: 3 })).toHaveText(groups);
     const iconsByGroup = [
-      ['Backend', ['Java', 'Spring Boot']],
-      [database, ['DynamoDB', 'MySQL', 'Neo4j']],
-      ['DevOps', ['Docker', 'Git', 'GitHub', 'GitHub Actions', 'Azure']],
-      [otherTools, ['Flyway', 'Swagger', 'Postman', 'Linux', 'Power BI']],
+      [groups[0], ['Spring Boot', 'FastAPI']],
+      [groups[1], ['Java', 'Python']],
+      [groups[2], ['DynamoDB', 'MySQL', 'Neo4j']],
+      [groups[3], ['Docker', 'GitHub Actions', 'Azure']],
+      [groups[4], ['Vitest', 'Playwright']],
+      [
+        groups[5],
+        ['GitHub', 'Flyway', 'Swagger', 'Postman', 'Linux', 'Power BI'],
+      ],
     ] as const;
     for (const [group, technologies] of iconsByGroup) {
       const list = stack.getByRole('list', { name: group, exact: true });

@@ -1,0 +1,40 @@
+{
+  "order": 2,
+  "title": "Eventario",
+  "cover": "../../../proyectos/sistemas/Eventario/portada-eventario.png",
+  "repository": "https://github.com/SeumaRayo/backend-DevOps/tree/develop",
+  "video": "https://www.youtube.com/watch?v=eoqXi59Zoag",
+  "featured": ["Java", "Spring Boot", "PostgreSQL"],
+  "stack": [
+    "Java",
+    "Spring Boot",
+    "Spring Security",
+    "JWT",
+    "PostgreSQL",
+    "Flyway",
+    "Stripe",
+    "Google OAuth",
+    "React",
+    "TypeScript",
+    "Vite",
+    "Tailwind CSS"
+  ],
+  "es": {
+    "category": "APIs y control de acceso",
+    "summary": "De la inscripción al control de ingreso, Eventario reúne el aforo, los pagos y las entradas digitales de un evento.",
+    "overview": "El organizador publica un evento, administra el aforo y asigna personal. El asistente se inscribe y recibe una entrada digital que el equipo de ingreso valida por QR.",
+    "architecture": [
+      "La API REST en Java 21 y Spring Boot separa las operaciones de organizadores, asistentes y personal. Spring Security y JWT aplican permisos según el rol. Flyway versiona las migraciones de PostgreSQL.",
+      "Stripe procesa pagos y Google OAuth permite iniciar sesión. La plataforma contempla eventos pagos y solicitudes de reembolso."
+    ]
+  },
+  "en": {
+    "category": "APIs and access control",
+    "summary": "From registration to admission, Eventario brings capacity, payments and digital tickets into one event workflow.",
+    "overview": "Organizers publish events, manage capacity and assign staff. Attendees register and receive a digital ticket that staff validate by QR at the entrance.",
+    "architecture": [
+      "The Java 21 and Spring Boot REST API separates organizer, attendee and staff operations. Spring Security and JWT enforce role-based permissions. Flyway versions the PostgreSQL schema.",
+      "Stripe handles payments and Google OAuth supports sign-in. The platform covers paid events and refund requests."
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+const assets = import.meta.glob<string>('../assets/technologies/*.{svg,png}', {
+  eager: true,
+  import: 'default',
+  query: '?url',
+});
+const files: Record<string, string> = {
+  'Spring Boot': 'spring',
+  'Java 21': 'java',
+  'Spring Security': 'spring',
+  'GitHub Actions': 'githubactions',
+  'Power BI': 'powerbi',
+  'Tailwind CSS': 'tailwind',
+  Vite: 'vitejs',
+  'JUnit 5': 'junit',
+  Stripe: 'stripe',
+  Gemini: 'gemini',
+  Zod: 'zod',
+  JWT: 'jwt',
+  'Google OAuth': 'oauth',
+  'Supabase Auth': 'supabase',
+  'AWS Lambda': 'amazonwebservices',
+  'AWS CDK': 'amazonwebservices',
+  'API Gateway': 'amazonwebservices',
+  'Docker Compose': 'docker',
+  Java: 'java',
+  Python: 'python',
+  JavaScript: 'javascript',
+  TypeScript: 'typescript',
+  FastAPI: 'fastapi',
+  DynamoDB: 'dynamodb',
+  Redis: 'redis',
+  PostgreSQL: 'postgresql',
+  MySQL: 'mysql',
+  Neo4j: 'neo4j',
+  Docker: 'docker',
+  Git: 'git',
+  GitHub: 'github',
+  Azure: 'azure',
+  Linux: 'linux',
+  Flyway: 'flyway',
+  Postman: 'postman',
+  Swagger: 'swagger',
+  React: 'react',
+  Vitest: 'vitest',
+  Playwright: 'playwright',
+};
+export const icons: Record<string, string | undefined> = Object.fromEntries(
+  Object.entries(files).map(([name, file]) => [
+    name,
+    assets[
+      `../assets/technologies/${file}.${file === 'linux' ? 'png' : 'svg'}`
+    ],
+  ]),
+);
+export const skills = [
+  ['Spring Boot', 'FastAPI', 'Spring Security'],
+  ['Java', 'Python', 'JavaScript', 'TypeScript'],
+  ['PostgreSQL', 'DynamoDB', 'Redis', 'MySQL', 'Neo4j'],
+  ['Docker', 'GitHub Actions', 'Azure'],
+  ['Vitest', 'Playwright', 'JUnit 5', 'Mockito', 'Testcontainers'],
+  ['Git', 'GitHub', 'Flyway', 'Swagger', 'Postman', 'Linux', 'Power BI'],
+] as const;

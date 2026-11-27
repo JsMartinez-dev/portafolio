@@ -1,0 +1,130 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { messages, type Locale } from '../i18n';
+import ProjectDetails from './ProjectDetails.astro';
+interface Props {
+  project: CollectionEntry<'projects'>;
+  locale: Locale;
+}
+const { project, locale } = Astro.props;
+---
+
+<dialog id={'detail-' + project.id} aria-labelledby={'title-' + project.id}>
+  <header>
+    <h2 id={'title-' + project.id}>{project.data.title}</h2>
+    <form method="dialog">
+      <button autofocus>{messages[locale].projects.close} ×</button>
+    </form>
+  </header>
+  <ProjectDetails {project} {locale} />
+</dialog>
+<script>
+  for (const dialog of document.querySelectorAll<HTMLDialogElement>(
+    'dialog[id^="detail-"]',
+  )) {
+    const opener = document.querySelector<HTMLAnchorElement>(
+      `a[aria-controls="${dialog.id}"]`,
+    );
+    const video = dialog.querySelector<HTMLElement>('[data-embed]');
+    if (!opener || !video) continue;
+    opener.addEventListener('click', (e) => {
+      if (
+        e.ctrlKey ||
+        e.metaKey ||
+        e.altKey ||
+        e.shiftKey ||
+        typeof dialog.showModal !== 'function'
+      )
+        return;
+      e.preventDefault();
+      dialog.showModal();
+      dialog.scrollTop = 0;
+      const frame = document.createElement('iframe');
+      frame.src = video.dataset.embed!;
+      frame.title = video.dataset.title!;
+      frame.allowFullscreen = true;
+      video.replaceChildren(frame);
+    });
+    dialog.addEventListener('click', (e) => {
+      if (e.target !== dialog) return;
+      const box = dialog.getBoundingClientRect();
+      if (
+        e.clientX < box.left ||
+        e.clientX > box.right ||
+        e.clientY < box.top ||
+        e.clientY > box.bottom
+      )
+        dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      video.replaceChildren();
+      opener.focus({ preventScroll: true });
+    });
+  }
+</script>
+<style>
+  dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(48rem, calc(100% - 1.4rem));
+    max-height: 88dvh;
+    overscroll-behavior: contain;
+    overflow: auto;
+    background: var(--surface-1);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+  }
+  dialog::backdrop {
+    background: rgb(7 10 17 / 82%);
+  }
+  :global(html:has(dialog[open])) {
+    overflow: hidden;
+  }
+  dialog header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem clamp(1rem, 4vw, 2.4rem);
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  dialog h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  button {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    border-radius: 0.25rem;
+  }
+  button:hover {
+    background: var(--surface-2);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    dialog {
+      opacity: 0;
+      transform: translateY(10px);
+      transition:
+        opacity 0.18s,
+        transform 0.18s,
+        overlay 0.18s allow-discrete,
+        display 0.18s allow-discrete;
+    }
+    dialog[open] {
+      opacity: 1;
+      transform: none;
+    }
+    @starting-style {
+      dialog[open] {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+    }
+  }
+</style>

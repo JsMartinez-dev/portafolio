@@ -1,9 +1,10 @@
 ---
-import { homePath, locales, messages, type Locale } from '../i18n';
+import { homePath, projectPath, locales, messages, type Locale } from '../i18n';
 interface Props {
   locale: Locale;
+  projectId?: string;
 }
-const { locale } = Astro.props;
+const { locale, projectId } = Astro.props;
 ---
 
 <nav aria-label={messages[locale].language}>
@@ -11,7 +12,9 @@ const { locale } = Astro.props;
     {locales.map((language) => (
       <li>
         <a
-          href={homePath(language)}
+          href={
+            projectId ? projectPath(language, projectId) : homePath(language)
+          }
           lang={language}
           hreflang={language}
           aria-label={language === 'es' ? 'Español' : 'English'}

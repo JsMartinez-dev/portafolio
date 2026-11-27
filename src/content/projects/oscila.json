@@ -1,0 +1,37 @@
+{
+  "order": 3,
+  "title": "Oscila",
+  "cover": "../../../proyectos/sistemas/Oscila/portada_proyecto.png",
+  "repository": "https://github.com/JsMartinez-dev/Oscila",
+  "video": "https://www.youtube.com/watch?v=hewkh3YumVw",
+  "featured": ["JavaScript", "React", "Vitest"],
+  "stack": [
+    "React",
+    "JavaScript",
+    "Vite",
+    "Supabase Auth",
+    "Vitest",
+    "GitHub Actions",
+    "Zod",
+    "Gemini",
+    "IndexedDB"
+  ],
+  "es": {
+    "category": "Simulación educativa",
+    "summary": "Del circuito dibujado a las ecuaciones. Oscila permite variar componentes y seguir cómo cambia la corriente en cada rama.",
+    "overview": "El estudiante dibuja un circuito o revisa el esquema sugerido a partir de una foto. El editor muestra las reducciones o las ecuaciones de Kirchhoff paso a paso.",
+    "architecture": [
+      "El motor de cálculo funciona en el navegador, separado de React. Un análisis nodal independiente contrasta los resultados. Vitest cubre el motor y GitHub Actions ejecuta las pruebas.",
+      "Una función serverless consulta a Gemini y Zod valida la respuesta. IndexedDB permite reutilizar reconocimientos y Supabase Auth gestiona las sesiones."
+    ]
+  },
+  "en": {
+    "category": "Educational simulation",
+    "summary": "From a circuit sketch to its equations. Oscila lets students change components and follow the current through each branch.",
+    "overview": "Students draw a circuit or review a diagram suggested from a photo. The editor shows each reduction or builds Kirchhoff’s equations step by step.",
+    "architecture": [
+      "The calculation engine runs in the browser independently of React. A separate nodal analysis cross-checks the result. Vitest covers the engine and GitHub Actions runs the tests.",
+      "A serverless function queries Gemini and Zod validates its response. IndexedDB caches past recognitions and Supabase Auth manages sessions."
+    ]
+  }
+}

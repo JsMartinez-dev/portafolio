@@ -1,0 +1,83 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { messages, type Locale } from '../i18n';
+import TechnologyList from './TechnologyList.astro';
+interface Props {
+  project: CollectionEntry<'projects'>;
+  locale: Locale;
+  standalone?: boolean;
+}
+const {
+  project: { data },
+  locale,
+  standalone = false,
+} = Astro.props;
+const story = data[locale],
+  t = messages[locale].projects;
+const embed =
+  'https://www.youtube-nocookie.com/embed/' +
+  new URL(data.video).searchParams.get('v');
+---
+
+<div class="detail-body">
+  <p class="eyebrow">{story.category}</p>
+  <p class="lead">{story.summary}</p>
+  <div
+    class="video"
+    data-embed={embed}
+    data-title={t.video + ' · ' + data.title}
+  >
+    {standalone && <iframe
+      src={embed}
+      title={t.video + ' · ' + data.title}
+      loading="lazy"
+      allowfullscreen
+    ></iframe>}
+  </div>
+  <a href={data.video}>{t.watch} ↗</a>
+  <h3>{t.overview}</h3>
+  <p>{story.overview}</p>
+  <h3>{t.architecture}</h3>
+  {story.architecture.map((text) => (
+    <p>{text}</p>
+  ))}
+  <h3>{messages[locale].sections.stack}</h3>
+  <TechnologyList names={data.stack} />
+  <div class="detail-links">
+    <a href={data.repository}>{t.repository} ↗</a>
+    {data.site && <a href={data.site}>{t.site} ↗</a>}
+  </div>
+</div>
+<style>
+  .detail-body {
+    padding: clamp(1.15rem, 4vw, 2.4rem);
+    color: var(--text-muted);
+  }
+  .detail-body h3 {
+    font-size: 1.4rem;
+    font-weight: 680;
+    color: var(--text-primary);
+    margin: 1.7rem 0 0.55rem;
+  }
+  .detail-body p + p {
+    margin-top: 0.65rem;
+  }
+  .lead {
+    font-size: 1.15rem;
+  }
+  .video {
+    aspect-ratio: 16/9;
+    background: var(--accent);
+    margin: 1.4rem 0 0.6rem;
+  }
+  .video :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .detail-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+</style>

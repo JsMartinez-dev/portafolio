@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import { locales, messages, homePath, profile } from '../../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectDetails from '../../../components/ProjectDetails.astro';
+import LanguageSwitcher from '../../../components/LanguageSwitcher.astro';
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return locales.flatMap((locale) =>
+    projects.map((project) => ({
+      params: {
+        locale,
+        section: locale === 'es' ? 'proyectos' : 'projects',
+        slug: project.id,
+      },
+      props: { locale, project },
+    })),
+  );
+}
+const { locale, project } = Astro.props;
+---
+
+<BaseLayout
+  {locale}
+  title={project.data.title + ' · ' + profile.name}
+  description={project.data[locale].summary}
+  projectId={project.id}
+>
+  <main class="page-shell detail-page" tabindex="-1" id="main">
+    <header class="detail-nav">
+      <a href={homePath(locale) + '#' + messages[locale].projectsId}>
+        ← {messages[locale].sections.projects}
+      </a>
+      <LanguageSwitcher {locale} projectId={project.id} />
+    </header>
+    <h1>{project.data.title}</h1>
+    <ProjectDetails {locale} {project} standalone />
+  </main>
+</BaseLayout>
+<style>
+  .detail-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .detail-page {
+    max-width: 50rem;
+    padding-block: 2rem;
+  }
+  .detail-page h1 {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+</style>
